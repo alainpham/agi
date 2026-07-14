@@ -6,7 +6,7 @@ set -euo pipefail
 AGI_DIR="$HOME/agi"
 # https://github.com/TheTom/llama-cpp-turboquant.git
 # https://github.com/ggml-org/llama.cpp.git
-LLAMA_REPO="${LLAMA_REPO:-https://github.com/TheTom/llama-cpp-turboquant.git}"
+LLAMA_REPO="${LLAMA_REPO:-https://github.com/ggml-org/llama.cpp.git}"
 
 # ---- colors -----------------------------------------------------------------
 if [[ -t 1 ]]; then
