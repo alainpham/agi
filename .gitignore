@@ -1,0 +1,28 @@
+# Cloned/built third-party source
+llama.cpp/
+
+# Build artifacts
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Model files
+*.gguf
+*.bin
+*.safetensors
+
+# Logs & temp
+*.log
+*.tmp
+tmp/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
