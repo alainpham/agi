@@ -1,5 +1,6 @@
 # Cloned/built third-party source
 llama.cpp/
+models/
 
 # Build artifacts
 build/
