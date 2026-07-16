@@ -1,6 +1,5 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
-    --alias qwen36-35b-a3b-bartowski \
     --n-cpu-moe 36 \
     --temp 0.6 \
     --top-p 0.95 \

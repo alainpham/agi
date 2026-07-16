@@ -1,6 +1,5 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Qwopus3.6-35B-A3B-Coder-MTP-Q4_K_M.gguf \
-    --alias qwopus36-35b-a3b-coder-mtp \
     --n-cpu-moe 36 \
     --temp 0.6 \
     --top-p 0.95 \

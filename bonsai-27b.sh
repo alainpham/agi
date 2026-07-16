@@ -1,6 +1,5 @@
 /home/$USER/agi/prismaml/llama.cpp/build/bin/llama-server \
     -m ~/aimodels/llms/Bonsai-27B-Q1_0.gguf \
-    --alias bonsai-27b \
     --temp 0.7 \
     --top-p 0.95 \
     --top-k 20 \
