@@ -7,6 +7,7 @@
     --presence-penalty 0.0 \
     --repeat-penalty 1.0 \
     --chat-template-kwargs '{"preserve_thinking": true}' \
+    --n-gpu-layers 99 \
     --ctx-size 80000 \
     --jinja \
     --batch-size 2048 \
