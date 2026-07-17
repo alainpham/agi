@@ -16,7 +16,7 @@
     --ubatch-size 512 \
     --flash-attn on \
     --parallel 1 \
-    --threads 14 \
+    --threads 6 \
     --cache-type-k q4_0 \
     --cache-type-v q4_0 \
     --host 0.0.0.0 \
