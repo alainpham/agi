@@ -1,6 +1,6 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Qwopus3.6-35B-A3B-Coder-MTP-Q4_K_M.gguf \
-    --n-cpu-moe 36 \
+    --n-cpu-moe 34 \
     --temp 0.6 \
     --top-p 0.95 \
     --top-k 20 \
@@ -11,7 +11,7 @@
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
-    --ctx-size 80000 \
+    --ctx-size 30000 \
     --jinja \
     --batch-size 2048 \
     --ubatch-size 512 \
