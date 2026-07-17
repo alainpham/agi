@@ -1,22 +1,22 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
-    --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
+    --model /home/user/aimodels/llms/Qwopus3.6-35B-A3B-Coder-MTP-Q4_K_M.gguf \
     --temp 0.6 \
     --top-p 0.95 \
     --top-k 20 \
     --min-p 0.0 \
     --presence-penalty 0.0 \
     --repeat-penalty 1.0 \
-    --chat-template-kwargs '{"preserve_thinking": true}' \
+    --chat-template-kwargs '{"enable_thinking":false}' \
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
-    --ctx-size 80000 \
+    --ctx-size 30000 \
     --jinja \
     --batch-size 2048 \
     --ubatch-size 512 \
     --flash-attn on \
     --parallel 1 \
-    --threads 6 \
+    --threads 14 \
     --cache-type-k q4_0 \
     --cache-type-v q4_0 \
     --host 0.0.0.0 \
