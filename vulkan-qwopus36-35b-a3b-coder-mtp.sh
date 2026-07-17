@@ -10,7 +10,7 @@
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
-    --ctx-size 30000 \
+    --ctx-size 80000 \
     --jinja \
     --batch-size 2048 \
     --ubatch-size 512 \
