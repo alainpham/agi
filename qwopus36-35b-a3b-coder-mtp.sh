@@ -7,7 +7,7 @@
     --min-p 0.0 \
     --presence-penalty 0.0 \
     --repeat-penalty 1.0 \
-    --chat-template-kwargs '{"preserve_thinking": true}' \
+    --chat-template-kwargs '{"enable_thinking":false}' \
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
