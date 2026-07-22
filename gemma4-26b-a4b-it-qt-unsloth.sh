@@ -1,13 +1,10 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
-    --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
-    --n-cpu-moe 36 \
-    --temp 0.6 \
+    --model /home/user/aimodels/llms/gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.unsloth.gguf \
+    --n-cpu-moe 23 \
+    --temp 1.0 \
     --top-p 0.95 \
-    --top-k 20 \
-    --min-p 0.0 \
-    --presence-penalty 0.0 \
-    --repeat-penalty 1.0 \
-    --chat-template-kwargs '{"preserve_thinking": true}' \
+    --top-k 64 \
+    --chat-template-kwargs '{"enable_thinking":true}' \
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
