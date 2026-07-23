@@ -1,23 +1,24 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
+    --host 0.0.0.0 \
+    --port 8080 \
+    --reasoning on \
+    --reasoning-preserve \
+    --mlock \
+    --no-mmap \
+    --ctx-size 32768 \
+    --jinja \
+    --batch-size 2048 \
+    --ubatch-size 512 \
+    --flash-attn on \
+    --parallel 1 \
+    --threads 14 \
+    --cache-type-k q4_0 \
+    --cache-type-v q4_0 \
     --temp 0.6 \
     --top-p 0.95 \
     --top-k 20 \
     --min-p 0.0 \
     --presence-penalty 0.0 \
     --repeat-penalty 1.0 \
-    --chat-template-kwargs '{"preserve_thinking": true}' \
-    --n-gpu-layers 999 \
-    --mlock \
-    --no-mmap \
-    --ctx-size 80000 \
-    --jinja \
-    --batch-size 2048 \
-    --ubatch-size 512 \
-    --flash-attn on \
-    --parallel 1 \
-    --threads 6 \
-    --cache-type-k q4_0 \
-    --cache-type-v q4_0 \
-    --host 0.0.0.0 \
-    --port 8080
+    --n-gpu-layers 999
