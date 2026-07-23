@@ -1,7 +1,7 @@
 # Cloned/built third-party source
 llama.cpp*/
 models/
-
+Chatterbox-TTS-Server-*/
 # Build artifacts
 build/
 *.o
