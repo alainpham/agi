@@ -70,6 +70,12 @@ if [ ! -f "${COMPOSE_FILE}" ]; then
     exit 1
 fi
 
+# Store the Hugging Face model cache on the host instead of a named volume
+HF_CACHE_DIR="${HF_CACHE_DIR:-/home/user/aimodels/tts}"
+mkdir -p "${HF_CACHE_DIR}"
+sed -i -E "s|(^[[:space:]]*-[[:space:]]*)hf_cache:/app/hf_cache|\1${HF_CACHE_DIR}:/app/hf_cache|" "${COMPOSE_FILE}"
+echo "==> HF cache mapped to ${HF_CACHE_DIR}"
+
 # Pick docker compose (v2 plugin) or docker-compose (v1)
 if docker compose version &>/dev/null; then
     DC="docker compose"
