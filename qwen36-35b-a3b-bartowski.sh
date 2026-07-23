@@ -1,10 +1,3 @@
-    # --temp 0.6 \
-    # --top-p 0.95 \
-    # --top-k 20 \
-    # --min-p 0.0 \
-    # --presence-penalty 0.0 \
-    # --repeat-penalty 1.0 \
-
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
     --n-cpu-moe 36 \
@@ -30,3 +23,11 @@
     --cache-type-v q4_0 \
     --host 0.0.0.0 \
     --port 8080
+
+
+    # --temp 0.6 \
+    # --top-p 0.95 \
+    # --top-k 20 \
+    # --min-p 0.0 \
+    # --presence-penalty 0.0 \
+    # --repeat-penalty 1.0 \
