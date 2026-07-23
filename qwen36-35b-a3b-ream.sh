@@ -6,14 +6,8 @@
     # --repeat-penalty 1.0 \
 
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
-    --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
-    --n-cpu-moe 36 \
-    --temp 0.6 \
-    --top-p 0.95 \
-    --top-k 20 \
-    --min-p 0.0 \
-    --presence-penalty 0.0 \
-    --repeat-penalty 1.0 \
+    --model /home/user/aimodels/llms/Qwen3.6-35B-A3B-REAM-192-heretic-APEX-IBalanced-Q5_K_M.gguf \
+    --n-cpu-moe 33 \
     --reasoning on \
     --reasoning-preserve \
     --n-gpu-layers 999 \
