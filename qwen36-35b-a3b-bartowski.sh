@@ -9,8 +9,6 @@
     --repeat-penalty 1.0 \
     --reasoning on \
     --reasoning-preserve \
-    --reasoning-budget 1000 \
-    --reasoning-budget-message "\nOkay, I have enough information to answer." \
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
