@@ -1,20 +1,20 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
-    --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-Q4_K_M.bartowski.gguf \
-    --n-cpu-moe 35 \
+    --model /home/user/aimodels/llms/Qwen_Qwen3.6-35B-A3B-IQ4_NL.bartowski.gguf \
+    --model-draft /home/user/aimodels/llms/mtp-Qwen_Qwen3.6-35B-A3B-Q4_0.bartowski.gguf \
+    --spec-type draft-mtp \
+    --spec-draft-n-max 2 \
+    --n-cpu-moe 38 \
     --temp 0.6 \
     --top-p 0.95 \
     --top-k 20 \
     --min-p 0.0 \
     --presence-penalty 0.0 \
     --repeat-penalty 1.0 \
-    --reasoning on \
-    --reasoning-preserve \
-    --reasoning-budget 1000 \
-    --reasoning-budget-message "\nOkay, I have enough information to answer." \
+    --chat-template-kwargs '{"preserve_thinking": true}' \
     --n-gpu-layers 999 \
     --mlock \
     --no-mmap \
-    --ctx-size 35000 \
+    --ctx-size 80000 \
     --jinja \
     --batch-size 2048 \
     --ubatch-size 512 \
