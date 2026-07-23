@@ -41,7 +41,7 @@ cd "${DIR}"
 # ----------------------------------------------------------------------------
 detect_compose() {
     # ROCm / AMD: /dev/kfd device or rocm-smi present
-    if [ -e /dev/kfd ] || command -v rocm-smi &>/dev/null || command -v rocminfo &>/dev/null; then
+    if [ -e /dev/kfd ] || command -v rocminfo &>/dev/null; then
         echo "docker-compose-rocm.yml"
         return
     fi
