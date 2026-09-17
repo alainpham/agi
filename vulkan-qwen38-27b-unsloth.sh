@@ -1,0 +1,24 @@
+/home/$USER/agi/llama.cpp/build/bin/llama-server \
+    --model /home/user/aimodels/llms/Qwen3.8-27B-UD-Q4_K_XL.gguf \
+    --host 0.0.0.0 \
+    --port 8080 \
+    --chat-template-kwargs '{"reasoning_effort":"medium"}' \
+    --reasoning-preserve \
+    --mlock \
+    --no-mmap \
+    --ctx-size 32768 \
+    --jinja \
+    --batch-size 2048 \
+    --ubatch-size 512 \
+    --flash-attn on \
+    --parallel 1 \
+    --threads 14 \
+    --cache-type-k q8_0 \
+    --cache-type-v q8_0 \
+    --temp 1.0 \
+    --top-p 0.95 \
+    --top-k 20 \
+    --min-p 0.0 \
+    --presence-penalty 0.0 \
+    --repeat-penalty 1.0 \
+    --n-gpu-layers 999 
