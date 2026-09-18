@@ -35,8 +35,15 @@
 # NOTE: this model's PLE n-grams are unrelated to --spec-type ngram-*. Both are called "n-gram"
 # but the first is a weight lookup table inside the model and the second is speculative decoding.
 #
-# KV at 32k is only ~800 MiB at f16 here (just 12 of 48 layers are full-attention, 2 KV heads of
-# 256 dim), and f16 already leaves ~1.7 GiB free with zero paging, so do not bother quantizing it.
+# KV CACHE: f16 IS BOTH FASTER AND BETTER HERE -- DO NOT QUANTIZE IT
+#   Only 12 of 48 layers are full-attention (2 KV heads of 256 dim), so KV is 24 KiB/token:
+#   at 32k that is 768 MiB f16 / 408 MiB q8_0 / 216 MiB q4_0 -- ~1% of the 55 GB footprint.
+#   Measured tg128 at depth 4096: f16 3.96 t/s, q8_0 3.87 t/s (-2.3%), q4_0 3.81 t/s (-3.8%).
+#   More aggressive quantization is monotonically SLOWER, which is the signature of dequant
+#   overhead dominating rather than KV bandwidth. Both the bandwidth saved and the dequant work
+#   scale linearly with KV size, so that ordering does not flip as the context fills.
+#   Only revisit if --ctx-size goes way up: at the model's full 262144 ctx, f16 KV is 6 GiB
+#   (q8_0 3.2 GiB, q4_0 1.7 GiB) and memory, not speed, makes the decision.
 #
 # --chat-template-kwargs reasoning_effort accepts only xhigh (default), medium, low.
 
