@@ -1,24 +1,3 @@
-    # --temp 0.6 \
-    # --top-p 0.95 \
-    # --top-k 20 \
-    # --min-p 0.0 \
-    # --presence-penalty 0.0 \
-    # --repeat-penalty 1.0 \
-
-    # --temp 1.0 \
-    # --top-p 0.95 \
-    # --top-k 20 \
-    # --min-p 0.0 \
-    # --presence-penalty 1.5 \
-    # --repeat-penalty 1.0 \
-
-# none thinking general
-    # --temp 0.7 \
-    # --top-p 0.8 \
-    # --top-k 20 \
-    # --min-p 0.0 \
-    # --presence-penalty 1.5 \
-    # --repeat-penalty 1.0 \
 
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Cyber-Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf \
