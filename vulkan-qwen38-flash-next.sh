@@ -22,15 +22,23 @@
 #   (pp512: 31.6 t/s on the iGPU vs 31.7 t/s on 4 CPU threads). 4 CUs never paid for themselves.
 #
 # SPECULATIVE DECODING -- SHORT DRAFTS ONLY ON THIS HARDWARE
-#   Measured on a verbatim code-rewrite (ngram-mod's documented best case), tg:
-#     spec off ................................ 4.25 t/s
-#     n-match 24 n-min 48 n-max 64 (the docs) . 2.19 t/s   <-- 48% SLOWER
-#     n-match 24 n-min  8 n-max 16 ............ 4.83 t/s   <-- +14%
+#   Full n-min/n-max sweep on a verbatim code-rewrite (ngram-mod's documented best case), tg,
+#   n-match held at 24 throughout:
+#     spec off ......... 4.25 t/s
+#     n-min 48 n-max 64  2.19 t/s   <-- the docs' MoE advice, 48% SLOWER than off
+#     n-min  8 n-max 32  2.57 t/s
+#     n-min  8 n-max 24  4.56 t/s
+#     n-min  8 n-max 16  4.94 t/s
+#     n-min  8 n-max 12  5.11 t/s
+#     n-min  4 n-max  8  5.17 t/s   <-- this config, +22% over spec off
+#   Monotonic: shorter drafts win, with a cliff between n-max 24 and 32. It plateaus at 8-12
+#   (run-to-run variance is ~2%), so going below 8 is not worth chasing.
 #   The docs say "MoEs require long drafts", but that assumes a GPU where prefill is 50-100x
 #   decode. Here pp/tg is only ~7.7x, so a 64-token draft batch costs ~8 decode steps and needs
-#   ~8 accepted tokens per round just to break even. Short drafts are the only ones that pay.
-#   On novel, reasoning-heavy prose (not measured at n-max 16; measured at n-max 64) drafting
-#   was a 3-20% loss, so drop the four --spec-* lines if your workload is not code/rewriting.
+#   ~8 accepted tokens per round just to break even.
+#   Keep n-match at 24 -- small lookup n is bad: n-match 8 with n-min 4 n-max 12 scored 3.09 t/s.
+#   On novel, reasoning-heavy prose (measured only at n-max 64) drafting was a 3-20% loss, so
+#   drop the four --spec-* lines if your workload is not code/rewriting.
 #
 # NOTE: this model's PLE n-grams are unrelated to --spec-type ngram-*. Both are called "n-gram"
 # but the first is a weight lookup table inside the model and the second is speculative decoding.
@@ -47,34 +55,29 @@
 #
 # --chat-template-kwargs reasoning_effort accepts only xhigh (default), medium, low.
 
+    # --spec-type ngram-mod \
+    # --spec-ngram-mod-n-match 24 \
+    # --spec-ngram-mod-n-min 4 \
+    # --spec-ngram-mod-n-max 8 \
+
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     -hf AtomicChat/Qwen3.8-Flash-Next-GGUF:Q4_K_M \
     --host 0.0.0.0 \
     --port 8080 \
     --jinja \
-    --chat-template-kwargs '{"reasoning_effort":"medium"}' \
-    --reasoning-preserve \
+    --reasoning on \
     -fit off \
-    -ngl 0 \
+    -ngl 12 \
     -lm mmap \
     --lazy-mode on \
-    --cache-ram 0 \
     --ctx-size 32768 \
     --parallel 1 \
     --flash-attn on \
     --cache-type-k f16 \
     --cache-type-v f16 \
-    --batch-size 2048 \
-    --ubatch-size 512 \
     --threads 6 \
     --threads-batch 6 \
-    --spec-type ngram-mod \
-    --spec-ngram-mod-n-match 24 \
-    --spec-ngram-mod-n-min 8 \
-    --spec-ngram-mod-n-max 16 \
     --temp 1.0 \
     --top-p 0.95 \
     --top-k 20 \
-    --min-p 0.0 \
-    --presence-penalty 0.0 \
-    --repeat-penalty 1.0
+    --min-p 0.0
