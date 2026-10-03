@@ -27,7 +27,6 @@
     --host 0.0.0.0 \
     --port 8080 \
     --reasoning on \
-    --reasoning-preserve \
     --load-mode mlock\
     --ctx-size 81920 \
     --cache-type-k f16 \
