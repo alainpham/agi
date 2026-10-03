@@ -22,12 +22,14 @@
 
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Cyber-Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf \
+    --mmproj /home/user/aimodels/llms/mmproj-BF16.gguf \
+    --no-mmproj-offload \
     --host 0.0.0.0 \
     --port 8080 \
     --reasoning on \
     --reasoning-preserve \
     --load-mode mlock\
-    --ctx-size 100000 \
+    --ctx-size 81920 \
     --cache-type-k f16 \
     --cache-type-v f16 \
     --jinja \
