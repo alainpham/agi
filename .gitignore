@@ -2,6 +2,7 @@
 llama.cpp*/
 models/
 Chatterbox-TTS-Server-*/
+stable-diffusion.cpp*/
 # Build artifacts
 build/
 *.o
