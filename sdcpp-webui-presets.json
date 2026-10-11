@@ -13,6 +13,7 @@
       "fps": 16,
       "height": 768,
       "high_noise_sample_params": {
+        "custom_sigmas": "",
         "eta": "",
         "flow_shift": "",
         "guidance": {
@@ -38,6 +39,7 @@
       "preview_mode": "proj",
       "prompt": "a real cinematic photo of batman",
       "sample_params": {
+        "custom_sigmas": "",
         "eta": "",
         "flow_shift": "",
         "guidance": {
