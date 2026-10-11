@@ -10,7 +10,7 @@
     "clip_skip": -1,
     "control_strength": 0.8999999761581421,
     "fps": 16,
-    "height": 512,
+    "height": 768,
     "high_noise_sample_params": {
       "custom_sigmas": "",
       "eta": "",
@@ -38,7 +38,7 @@
     "preview_mode": "proj",
     "prompt": "",
     "sample_params": {
-      "custom_sigmas": "1.0,0.978453,0.95418,0.926626,0.89508,0.845148,0.704534,0.414568,0.0",
+      "custom_sigmas": "",
       "eta": "",
       "flow_shift": "",
       "guidance": {
@@ -50,24 +50,24 @@
         "slg_layers": "7,8,9",
         "txt_cfg": 1
       },
-      "sample_method": "euler",
-      "sample_steps": 8,
-      "scheduler": "simple",
+      "sample_method": "res_2s",
+      "sample_steps": 13,
+      "scheduler": "beta",
       "shifted_timestep": 0
     },
     "seed": -1,
     "strength": 0.75,
     "vace_strength": 1,
     "vae_tiling_params": {
-      "enabled": false,
+      "enabled": true,
       "rel_size_h": 0,
       "rel_size_w": 0,
       "target_overlap": 0.5,
-      "tile_size_h": 0,
-      "tile_size_w": 0
+      "tile_size_h": 768,
+      "tile_size_w": 544
     },
     "video_frames": 33,
-    "width": 768
+    "width": 1024
   },
   "generation_mode": "image"
 }

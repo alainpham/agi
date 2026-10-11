@@ -4,7 +4,8 @@
 set -euo pipefail
 
 AGI_DIR="$HOME/agi"
-SD_REPO="${SD_REPO:-https://github.com/leejet/stable-diffusion.cpp.git}"
+# SD_REPO="${SD_REPO:-https://github.com/leejet/stable-diffusion.cpp.git}"
+SD_REPO="${SD_REPO:-https://github.com/alainpham/stable-diffusion.cpp.git}"
 SD_DIR="$AGI_DIR/stable-diffusion.cpp"
 
 # ---- colors -----------------------------------------------------------------

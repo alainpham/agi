@@ -1,4 +1,77 @@
 {
+  "qwen-2.1-character-sheet": {
+    "form": {
+      "batch_count": 1,
+      "cache": {
+        "mode": "disabled",
+        "option": "",
+        "scm_mask": "",
+        "scm_policy_dynamic": true
+      },
+      "clip_skip": -1,
+      "control_strength": 0.8999999761581421,
+      "fps": 16,
+      "height": 768,
+      "high_noise_sample_params": {
+        "custom_sigmas": "",
+        "eta": "",
+        "flow_shift": "",
+        "guidance": {
+          "distilled_guidance": 3.5,
+          "img_cfg": "",
+          "layer_end": 0.2,
+          "layer_start": 0.01,
+          "scale": 0,
+          "slg_layers": "7,8,9",
+          "txt_cfg": 7
+        },
+        "sample_method": "default",
+        "sample_steps": -1,
+        "scheduler": "default",
+        "shifted_timestep": 0
+      },
+      "lora": [],
+      "moe_boundary": 0.875,
+      "negative_prompt": "",
+      "output_compression": 100,
+      "output_format": "png",
+      "preview_interval": 1,
+      "preview_mode": "proj",
+      "prompt": "Create a professional character design reference from the given <image1>\n\nART STYLE:\nStudio Ghibli-inspired traditional hand-painted 2D Japanese animation, whimsical cozy fantasy, soft watercolor and gouache textures, delicate pencil outlines, warm pastel color palette, charming expressive characters, gentle nostalgic atmosphere, consistent animation model-sheet design.\n\nSHEET LAYOUT:\nClean professional animation character turnaround sheet on a warm ivory background with 2 rows.\nRow 1, full-body neutral expression in front view, three-quarter view, side profile and back view, \nRow 2, facial close up with 4 facial expressions : happy, very angry, sad, surprised\n\nKeep every view clearly separated and unobstructed. Evenly spaced.\n\nIMPORTANT CONSISTENCY RULES:\nExactly the same character designs in every view. No additional characters, no props hiding the body, no redesigns, no exaggerated anatomical changes. Accurate character turnaround, clear silhouettes, harmonious colors, hand-painted children's animation aesthetic.\n\nLandscape 4:3 composition, high resolution, clean character reference sheet, minimal background, no watermark, no decorative typography.",
+      "sample_params": {
+        "custom_sigmas": "",
+        "eta": "",
+        "flow_shift": "",
+        "guidance": {
+          "distilled_guidance": 3.5,
+          "img_cfg": "",
+          "layer_end": 0.20000000298023224,
+          "layer_start": 0.009999999776482582,
+          "scale": 0,
+          "slg_layers": "7,8,9",
+          "txt_cfg": 1
+        },
+        "sample_method": "res_2s",
+        "sample_steps": 13,
+        "scheduler": "beta",
+        "shifted_timestep": 0
+      },
+      "seed": 42,
+      "strength": 0.75,
+      "vace_strength": 1,
+      "vae_tiling_params": {
+        "enabled": true,
+        "rel_size_h": 0,
+        "rel_size_w": 0,
+        "target_overlap": 0.5,
+        "tile_size_h": 768,
+        "tile_size_w": 544
+      },
+      "video_frames": 33,
+      "width": 1024
+    },
+    "generation_mode": "image"
+  },
   "qwen-2.1-fastest": {
     "form": {
       "batch_count": 1,
