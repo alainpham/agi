@@ -1,0 +1,73 @@
+{
+  "form": {
+    "batch_count": 1,
+    "cache": {
+      "mode": "disabled",
+      "option": "",
+      "scm_mask": "",
+      "scm_policy_dynamic": true
+    },
+    "clip_skip": -1,
+    "control_strength": 0.8999999761581421,
+    "fps": 16,
+    "height": 512,
+    "high_noise_sample_params": {
+      "custom_sigmas": "",
+      "eta": "",
+      "flow_shift": "",
+      "guidance": {
+        "distilled_guidance": 3.5,
+        "img_cfg": "",
+        "layer_end": 0.2,
+        "layer_start": 0.01,
+        "scale": 0,
+        "slg_layers": "7,8,9",
+        "txt_cfg": 7
+      },
+      "sample_method": "default",
+      "sample_steps": -1,
+      "scheduler": "default",
+      "shifted_timestep": 0
+    },
+    "lora": [],
+    "moe_boundary": 0.875,
+    "negative_prompt": "",
+    "output_compression": 100,
+    "output_format": "png",
+    "preview_interval": 1,
+    "preview_mode": "proj",
+    "prompt": "",
+    "sample_params": {
+      "custom_sigmas": "1.0,0.978453,0.95418,0.926626,0.89508,0.845148,0.704534,0.414568,0.0",
+      "eta": "",
+      "flow_shift": "",
+      "guidance": {
+        "distilled_guidance": 3.5,
+        "img_cfg": "",
+        "layer_end": 0.20000000298023224,
+        "layer_start": 0.009999999776482582,
+        "scale": 0,
+        "slg_layers": "7,8,9",
+        "txt_cfg": 1
+      },
+      "sample_method": "euler",
+      "sample_steps": 8,
+      "scheduler": "simple",
+      "shifted_timestep": 0
+    },
+    "seed": -1,
+    "strength": 0.75,
+    "vace_strength": 1,
+    "vae_tiling_params": {
+      "enabled": false,
+      "rel_size_h": 0,
+      "rel_size_w": 0,
+      "target_overlap": 0.5,
+      "tile_size_h": 0,
+      "tile_size_w": 0
+    },
+    "video_frames": 33,
+    "width": 768
+  },
+  "generation_mode": "image"
+}

@@ -1,0 +1,2 @@
+/home/$USER/agi/stable-diffusion.cpp/build/bin/sd-server --diffusion-model /home/user/aimodels/diffusion_models/qwen-image-2.1-turbo-Q4_K_M.gguf  --vae /home/user/aimodels/vae/qwen_image_2.1_vae_bf16.safetensors  --llm /home/user/aimodels/text_encoders/Qwen3VL-8B-Instruct-Q4_K_M.gguf --llm_vision /home/user/aimodels/text_encoders/mmproj-Qwen3VL-8B-Instruct-Q8_0.gguf --diffusion-fa --offload-to-cpu -l 0.0.0.0   --sigmas "1.0,0.978453,0.95418,0.926626,0.89508,0.845148,0.704534,0.414568,0.0"
+
