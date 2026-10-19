@@ -36,9 +36,9 @@
     "output_format": "png",
     "preview_interval": 1,
     "preview_mode": "proj",
-    "prompt": "",
+    "prompt": "Pikachu flying in the clouds",
     "sample_params": {
-      "custom_sigmas": "",
+      "custom_sigmas": "1.0,0.978453,0.95418,0.926626,0.89508,0.845148,0.704534,0.414568,0.0",
       "eta": "",
       "flow_shift": "",
       "guidance": {
@@ -50,24 +50,24 @@
         "slg_layers": "7,8,9",
         "txt_cfg": 1
       },
-      "sample_method": "res_2s",
-      "sample_steps": 13,
-      "scheduler": "beta",
+      "sample_method": "euler",
+      "sample_steps": 8,
+      "scheduler": "simple",
       "shifted_timestep": 0
     },
     "seed": -1,
     "strength": 0.75,
     "vace_strength": 1,
     "vae_tiling_params": {
-      "enabled": true,
+      "enabled": false,
       "rel_size_h": 0,
       "rel_size_w": 0,
       "target_overlap": 0.5,
-      "tile_size_h": 768,
-      "tile_size_w": 544
+      "tile_size_h": 0,
+      "tile_size_w": 0
     },
     "video_frames": 33,
-    "width": 1024
+    "width": 512
   },
   "generation_mode": "image"
 }
