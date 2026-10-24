@@ -1,5 +1,6 @@
 /home/$USER/agi/llama.cpp/build/bin/llama-server \
     --model /home/user/aimodels/llms/Cyber-Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf \
+    --alias Cyber-Tiel-Coder-35B-A3B-MTP \
     --mmproj /home/user/aimodels/llms/mmproj-BF16.gguf \
     --host 0.0.0.0 \
     --port 9931 \
