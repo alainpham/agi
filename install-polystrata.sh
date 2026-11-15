@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build PolyStrata and extract each model's tokenizer; use the configs beside this script.
+# Update/build PolyStrata and extract each model's tokenizer; use the configs beside this script.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -11,7 +11,8 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 if [[ -d "${INSTALL_DIR}/.git" ]]; then
-    echo "==> Using existing PolyStrata checkout at ${INSTALL_DIR}"
+    echo "==> Updating PolyStrata at ${INSTALL_DIR}"
+    git -C "${INSTALL_DIR}" pull --ff-only
 else
     echo "==> Cloning PolyStrata into ${INSTALL_DIR}"
     git clone https://github.com/simplexai-labs/PolyStrata "${INSTALL_DIR}"
