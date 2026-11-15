@@ -1,0 +1,50 @@
+{
+ "exe": "/home/user/agi/PolyStrata/engine-poly-amd/strata-poly",
+ "args": [
+  "--model",
+  "/home/user/aimodels/llms/Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
+  "--max-context",
+  "100000",
+  "--expert-profile",
+  "/home/user/aimodels/PolyStrata-data/packs/tiel-ud-q4_k_xl/expert-profile.txt",
+  "--vram-reserve-mib",
+  "512",
+  "--threads",
+  "9",
+  "--kv-whole"
+ ],
+ "cwd": "/home/user/agi/PolyStrata",
+ "tokenizer": "/home/user/aimodels/PolyStrata-data/packs/tiel-ud-q4_k_xl/tokenizer",
+ "model_name": "tiel-coder-35b-a3b-ud-q4_k_xl",
+ "display_name": "Tiel Coder 35B-A3B UD-Q4_K_XL",
+ "log": "/home/user/agi/PolyStrata/strata-tiel-ud-q4_k_xl-amd.log",
+ "lib_dirs": [
+  "/home/user/agi/PolyStrata/.venv/lib64/python3.13/site-packages/_rocm_sdk_devel/lib",
+  "/home/user/agi/PolyStrata/.venv/lib64/python3.13/site-packages/_rocm_sdk_libraries_gfx110X_all/lib",
+  "/home/user/agi/PolyStrata/.venv/lib/python3.13/site-packages/_rocm_sdk_libraries_gfx110X_all/lib"
+ ],
+ "port": 9931,
+ "gpu": 0,
+ "gpus_asked": true,
+ "open_browser": false,
+ "reasoning_budget_tokens": 2048,
+ "sampling": {
+  "temperature": 0.6,
+  "top_p": 0.95,
+  "top_k": 20,
+  "min_p": 0,
+  "presence_penalty": 0,
+  "frequency_penalty": 0,
+  "repetition_penalty": 1
+ },
+ "vision": {
+  "exe": "/home/user/agi/PolyStrata/engine-poly-amd/strata-vision",
+  "mmproj": "/home/user/aimodels/llms/mmproj-BF16.gguf",
+  "model": "/home/user/aimodels/llms/Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
+  "gpu": false,
+  "max_tokens": 300,
+  "threads": 10
+ },
+ "backend": "hip",
+ "fit_max_tokens": true
+}

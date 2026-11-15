@@ -1,5 +1,5 @@
 {
- "exe": "/home/user/agi/PolyStrata/engine-poly/strata-poly",
+ "exe": "/home/user/agi/PolyStrata/engine-poly-amd/strata-poly",
  "args": [
   "--model",
   "/home/user/aimodels/llms/Cyber-Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
@@ -10,16 +10,18 @@
   "--vram-reserve-mib",
   "512",
   "--threads",
-  "9"
+  "9",
+  "--kv-whole"
  ],
  "cwd": "/home/user/agi/PolyStrata",
  "tokenizer": "/home/user/aimodels/PolyStrata-data/packs/cybertiel-ud-q4_k_xl/tokenizer",
  "model_name": "cyber-tiel-coder-35b-a3b-mtp-ud-q4_k_xl",
  "display_name": "Cyber-Tiel Coder 35B-A3B MTP UD-Q4_K_XL",
- "log": "/home/user/agi/PolyStrata/strata-cybertiel-ud-q4_k_xl.log",
+ "log": "/home/user/agi/PolyStrata/strata-cybertiel-ud-q4_k_xl-amd.log",
  "lib_dirs": [
-  "/opt/cuda/bin",
-  "/opt/cuda/lib64"
+  "/home/user/agi/PolyStrata/.venv/lib64/python3.13/site-packages/_rocm_sdk_devel/lib",
+  "/home/user/agi/PolyStrata/.venv/lib64/python3.13/site-packages/_rocm_sdk_libraries_gfx110X_all/lib",
+  "/home/user/agi/PolyStrata/.venv/lib/python3.13/site-packages/_rocm_sdk_libraries_gfx110X_all/lib"
  ],
  "port": 9931,
  "gpu": 0,
@@ -36,11 +38,13 @@
   "repetition_penalty": 1
  },
  "vision": {
-  "exe": "/home/user/agi/PolyStrata/engine-poly/strata-vision",
+  "exe": "/home/user/agi/PolyStrata/engine-poly-amd/strata-vision",
   "mmproj": "/home/user/aimodels/llms/mmproj-BF16.gguf",
   "model": "/home/user/aimodels/llms/Cyber-Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
   "gpu": false,
   "max_tokens": 300,
   "threads": 10
- }
+ },
+ "backend": "hip",
+ "fit_max_tokens": true
 }
