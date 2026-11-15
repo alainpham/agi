@@ -110,7 +110,7 @@
       "output_format": "png",
       "preview_interval": 1,
       "preview_mode": "proj",
-      "prompt": "a real cinematic photo of batman",
+      "prompt": "a man in hyper realistic impressionist oil painting style",
       "sample_params": {
         "custom_sigmas": "",
         "eta": "",
@@ -182,7 +182,7 @@
       "output_format": "png",
       "preview_interval": 1,
       "preview_mode": "proj",
-      "prompt": "mew in hyper realistic impressionist oil painting style",
+      "prompt": "a man in hyper realistic impressionist oil painting style",
       "sample_params": {
         "eta": "",
         "flow_shift": "",
@@ -253,7 +253,7 @@
       "output_format": "png",
       "preview_interval": 1,
       "preview_mode": "proj",
-      "prompt": "mew in hyper realistic impressionist oil painting style",
+      "prompt": "a man in hyper realistic impressionist oil painting style",
       "sample_params": {
         "eta": "",
         "flow_shift": "",
@@ -325,7 +325,7 @@
       "output_format": "png",
       "preview_interval": 1,
       "preview_mode": "proj",
-      "prompt": "Pikachu flying in the clouds",
+      "prompt": "a man in hyper realistic impressionist oil painting style",
       "sample_params": {
         "custom_sigmas": "1.0,0.978453,0.95418,0.926626,0.89508,0.845148,0.704534,0.414568,0.0",
         "eta": "",

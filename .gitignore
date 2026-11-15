@@ -3,6 +3,7 @@ llama.cpp*/
 models/
 Chatterbox-TTS-Server-*/
 stable-diffusion.cpp*/
+PolyStrata/
 arch*/
 sdoutput*/
 # Build artifacts
