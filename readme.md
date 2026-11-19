@@ -17,6 +17,36 @@ cmake --build build --config Release
 ```
 
 
+## audio.cpp
+
+Run the interactive installer (CUDA when NVIDIA is detected, Vulkan otherwise,
+including AMD GPUs):
+
+```sh
+./install-audio-cpp.sh
+```
+
+Requires Git, CMake >= 3.20, GCC >= 13 and the selected GPU toolchain: CUDA
+Toolkit >= 12 for CUDA, Vulkan headers/loader and `glslc` for Vulkan, or ROCm
+for HIP. The installer uses the [upstream Linux build helper](https://github.com/0xShug0/audio.cpp/blob/main/docs/build/linux.md)
+to compile the CLI and server in Release mode with embedded model specs.
+
+To select a backend explicitly:
+
+```sh
+AUDIO_BACKEND=cuda ./install-audio-cpp.sh
+AUDIO_BACKEND=vulkan ./install-audio-cpp.sh
+AUDIO_BACKEND=hip ./install-audio-cpp.sh
+# Optional HIP architecture override (otherwise detected by the build helper):
+AUDIO_BACKEND=hip GPU_TARGETS=gfx1151 ./install-audio-cpp.sh
+```
+
+Binaries are in `~/agi/audio.cpp/build/linux-<backend>-release/bin`.
+Check available devices with `audiocpp_cli --list-devices` in that directory.
+CUDA builds target the local GPU by default; set `CUDA_ARCH` to override this.
+Set `JOBS` to limit build parallelism, or `AUDIO_REPO` to use another repository.
+Model weights must be downloaded separately; see the [audio.cpp documentation](https://github.com/0xShug0/audio.cpp).
+
 ## Chatterbox
 
 change in env var of docker-compose-rocm.yml
