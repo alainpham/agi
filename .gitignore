@@ -5,6 +5,7 @@ models/
 Chatterbox-TTS-Server-*/
 stable-diffusion.cpp*/
 PolyStrata/
+Xolotl/
 arch*/
 sdoutput*/
 # Build artifacts
