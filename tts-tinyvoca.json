@@ -1,0 +1,11 @@
+{
+  "models": [
+    {
+      "id": "tiny-voca",
+      "family": "tiny_voca",
+      "path": "/home/user/aimodels/tts/tiny-voca-orig.gguf",
+      "task": "tts",
+      "mode": "offline"
+    }
+  ]
+}
