@@ -36,7 +36,7 @@ fi
 # --models-max 2: FIM + one chat model; loading another unloads the least recently used.
 exec "${LLAMA_SERVER}" \
     --models-preset "${PRESETS}" \
-    --models-max 3 \
+    --models-max 1 \
     --host 0.0.0.0 \
     --port 9931 \
     "${backend_options[@]}" \
