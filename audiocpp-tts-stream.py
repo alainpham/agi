@@ -6,12 +6,15 @@ Streams raw PCM (24 kHz mono s16le) and plays it live through pw-cat (PipeWire).
   ./test-tts-stream.py                          # --lang en (default), default sentence
   ./test-tts-stream.py --lang fr
   ./test-tts-stream.py --lang de "Guten Abend."
+  ./test-tts-stream.py --lang fr --file passage.txt
+  ./test-tts-stream.py --file passage.txt --save passage.wav --no-play
   ./test-tts-stream.py --all --no-play          # benchmark en, fr and de, no audio
   ./test-tts-stream.py --lang fr --all-voices   # play every French embedding in turn
   ./test-tts-stream.py --lang de --all-voices --no-play --pause 0   # just check each loads
   ./test-tts-stream.py --all --all-voices --save-samples --no-play  # every voice, all languages -> samples/en-alba.wav ...
 """
 import argparse, json, os, shutil, subprocess, sys, time, urllib.error, urllib.request, wave
+from pathlib import Path
 
 RATE, CH, W = 24000, 1, 2
 MODELS = {  # id -> (port, language, sample text)
@@ -19,11 +22,13 @@ MODELS = {  # id -> (port, language, sample text)
     "pocket-fr": (8881, "fr", "Bonsoir. Le port est calme ce soir, et les lampes le long de la jetée commencent à s'allumer."),
     "pocket-de": (8881, "de", "Guten Abend. Der Hafen ist heute Nacht ruhig, und die Lampen am Pier gehen langsam an."),
 }
-VOICES = {"pocket-en": "alba", "pocket-fr": "estelle", "pocket-de": "juergen"}  # built-in embeddings
+VOICES = {"pocket-en": "jane", "pocket-fr": "estelle", "pocket-de": "juergen"}  # built-in embeddings
 EMB_DIR = "/home/user/aimodels/tts/PocketTTS-GGUF/{}/embeddings"
 LANG_DIR = {"en": "english", "fr": "french", "de": "german"}
 p = argparse.ArgumentParser()
-p.add_argument("text", nargs="?")
+source = p.add_mutually_exclusive_group()
+source.add_argument("text", nargs="?", help="text to speak")
+source.add_argument("-f", "--file", type=Path, metavar="FILE", help="read text from a UTF-8 file")
 p.add_argument("--lang", default="en", choices=["en", "fr", "de"], help="language / model: en, fr or de")
 p.add_argument("--voice", help="voice id (embeddings/<id>.safetensors); default per language: alba/estelle/juergen")
 p.add_argument("--all-voices", action="store_true", help="test every embedding of --lang, one after another")
@@ -31,10 +36,17 @@ p.add_argument("--save-samples", action="store_true", help="with --all-voices: s
 p.add_argument("--samples-dir", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples"))
 p.add_argument("--pause", type=float, default=0.7, help="seconds of silence between voices with --all-voices")
 p.add_argument("--host", default="http://127.0.0.1")
-p.add_argument("--all", action="store_true", help="run the sample text for en, fr and de")
+p.add_argument("--all", action="store_true", help="run the sample text or --file for en, fr and de")
 p.add_argument("--save", metavar="WAV")
 p.add_argument("--no-play", action="store_true")
 a = p.parse_args()
+if a.file is not None:
+    try:
+        a.text = a.file.read_text(encoding="utf-8-sig")
+    except (OSError, UnicodeError) as e:
+        p.error(f"cannot read {a.file}: {e.reason if isinstance(e, UnicodeError) else e.strerror}")
+    if not a.text.strip():
+        p.error(f"{a.file} contains no text")
 
 def run(model, text, lang, play, save, voice=None):
     port, dlang, dtext = MODELS[model]
@@ -102,6 +114,6 @@ if a.all_voices:
         print(f"samples saved in {a.samples_dir}")
 elif a.all:
     for m in MODELS:
-        run(m, None, None, not a.no_play, None)
+        run(m, a.text if a.file is not None else None, None, not a.no_play, None)
 else:
     run("pocket-" + a.lang, a.text, a.lang, not a.no_play, a.save)
