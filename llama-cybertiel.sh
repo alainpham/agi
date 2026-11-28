@@ -27,7 +27,7 @@ exec "${LLAMA_SERVER}" \
     --port 9931 \
     --reasoning on \
     --load-mode mlock \
-    --ctx-size 81920 \
+    --ctx-size 65536 \
     --cache-type-k f16 \
     --cache-type-v f16 \
     --jinja \

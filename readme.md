@@ -19,14 +19,10 @@ cmake --build build --config Release
 
 ## audio.cpp
 
-Run the interactive installer (CUDA when NVIDIA is detected, Vulkan otherwise,
-including AMD GPUs):
+Run the interactive installer with `./install-audio-cpp.sh`.
 
-```sh
-./install-audio-cpp.sh
-```
-
-Requires Git, CMake >= 3.20, GCC >= 13 and the selected GPU toolchain: CUDA
+The installer defaults to the CPU build used by `./audiocpp.sh`. It requires
+Git, CMake >= 3.20 and GCC >= 13. Optional GPU builds also require CUDA
 Toolkit >= 12 for CUDA, Vulkan headers/loader and `glslc` for Vulkan, or ROCm
 for HIP. The installer uses the [upstream Linux build helper](https://github.com/0xShug0/audio.cpp/blob/main/docs/build/linux.md)
 to compile the CLI and server in Release mode with embedded model specs.

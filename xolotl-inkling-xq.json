@@ -6,7 +6,7 @@
     "--native", "/home/user/aimodels/llms/Inkling-2-Mini-XQ-Uncensored.gguf",
     "--dspark", "/home/user/aimodels/llms/Inkling-2-Mini-XQ-Uncensored-DSpark-BF16.gguf",
     "--cpu-exps", "0-23",
-    "--context", "81920",
+    "--context", "65536",
     "--ubatch", "16",
     "--attn-budget", "1048576",
     "--threads", "14",

@@ -4,7 +4,7 @@
   "--model",
   "/home/user/aimodels/llms/Mainline_Support/Inkling-2-Mini-UD-Q8_K_XL.gguf",
   "--max-context",
-  "81920",
+  "65536",
   "--expert-profile",
   "/home/user/aimodels/PolyStrata-data/packs/inkling-ud-q8_k_xl/expert-profile.txt",
   "--vram-reserve-mib",

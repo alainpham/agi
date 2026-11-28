@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Interactive installer for audio.cpp. Clones and builds under ~/agi.
-# AUDIO_BACKEND=cuda|vulkan|hip overrides automatic GPU detection.
+# Builds for CPU by default. Override with AUDIO_BACKEND=cuda|vulkan|hip.
 set -euo pipefail
 
 AGI_DIR="$HOME/agi"
@@ -19,28 +19,6 @@ info() { echo "${BLUE}==>${RESET} $*"; }
 ok()   { echo "${GREEN}✔${RESET} $*"; }
 warn() { echo "${YELLOW}!${RESET} $*"; }
 err()  { echo "${RED}✖${RESET} $*" >&2; }
-
-# ---- GPU detection ----------------------------------------------------------
-detect_gpu_backend() {
-  if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi >/dev/null 2>&1; then
-    echo "cuda"
-    return
-  fi
-
-  # Hardware remains visible in sysfs even when this session cannot use NVML.
-  local device vendor device_class
-  for device in /sys/bus/pci/devices/*; do
-    [[ -r "$device/vendor" && -r "$device/class" ]] || continue
-    read -r vendor < "$device/vendor"
-    read -r device_class < "$device/class"
-    if [[ "$vendor" == "0x10de" && "$device_class" == 0x03* ]]; then
-      echo "cuda"
-      return
-    fi
-  done
-  # Vulkan supports AMD GPUs without requiring ROCm.
-  echo "vulkan"
-}
 
 # ---- audio.cpp --------------------------------------------------------------
 audio_is_installed() {
@@ -100,7 +78,7 @@ print_status() {
   echo
   echo "${BOLD}Local AI install status${RESET}"
   echo "${DIM}Install dir: $AGI_DIR${RESET}"
-  echo "${DIM}Selected GPU backend: $backend${RESET}"
+  echo "${DIM}Selected backend: $backend${RESET}"
   echo "${DIM}--------------------------------------------${RESET}"
 
   if audio_is_installed; then
@@ -120,15 +98,15 @@ confirm() {
 
 # ---- main -------------------------------------------------------------------
 main() {
-  local backend="${AUDIO_BACKEND:-$(detect_gpu_backend)}"
+  local backend="${AUDIO_BACKEND:-cpu}"
   case "$backend" in
-    cuda|vulkan|hip) ;;
-    *) err "Unknown AUDIO_BACKEND: $backend (use cuda, vulkan or hip)"; return 1 ;;
+    cpu|cuda|vulkan|hip) ;;
+    *) err "Unknown AUDIO_BACKEND: $backend (use cpu, cuda, vulkan or hip)"; return 1 ;;
   esac
   AUDIO_BUILD_DIR="$AUDIO_DIR/build/linux-${backend}-release"
   mkdir -p "$AGI_DIR"
 
-  info "Selected GPU backend: $backend"
+  info "Selected backend: $backend"
   print_status "$backend"
 
   if audio_is_installed; then
