@@ -4,7 +4,7 @@
   "--model",
   "/home/user/aimodels/llms/Tiel-Coder-35B-A3B-MTP-UD-Q4_K_XL.gguf",
   "--max-context",
-  "100000",
+  "81920",
   "--expert-profile",
   "/home/user/aimodels/PolyStrata-data/packs/tiel-ud-q4_k_xl/expert-profile.txt",
   "--vram-reserve-mib",

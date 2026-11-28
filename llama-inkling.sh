@@ -53,7 +53,7 @@ exec "${LLAMA_SERVER}" \
     --reasoning on \
     --load-mode mlock --lazy-mode off \
     --fit on --fit-target 512 \
-    --ctx-size 102400 --batch-size 512 --ubatch-size 256 \
+    --ctx-size 81920 --batch-size 512 --ubatch-size 256 \
     --cache-type-k f16 \
     --cache-type-v f16 \
     --cache-ram 0 \

@@ -1,0 +1,32 @@
+{
+ "exe": "Strata/build-inkling-cuda/src/inkling2/strata-inkling",
+ "args": [
+  "--native",
+  "/home/user/aimodels/llms/Inkling-2-Mini-SQ-15.strata",
+  "--vision",
+  "/home/user/aimodels/llms/Inkling-2-Mini-Vision-v2.strata",
+  "--max-context",
+  "81920",
+  "--kv",
+  "fp8",
+  "--vram-reserve-mib",
+  "512",
+  "--threads",
+  "9"
+ ],
+ "cwd": ".",
+ "tokenizer": "/home/user/aimodels/Strata-data/packs/inkling-sqv2-20/tokenizer",
+ "model_name": "inkling-2-mini-sq-15",
+ "display_name": "Inkling 2 Mini SQ-15",
+ "log": "Strata/strata-inkling-sq-15-cuda.log",
+ "backend": "cuda",
+ "lib_dirs": ["/opt/cuda/bin", "/opt/cuda/lib64"],
+ "port": 9931,
+ "allowed_hosts": ["*"],
+ "gpu": 0,
+ "gpus_asked": true,
+ "open_browser": false,
+ "drafting": "dspark",
+ "fit_max_tokens": true,
+ "reasoning_budget_tokens": 2048
+}

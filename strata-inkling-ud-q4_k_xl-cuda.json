@@ -1,0 +1,48 @@
+{
+ "exe": "/home/user/agi/PolyStrata/engine-poly-cuda/strata-poly",
+ "args": [
+  "--model",
+  "/home/user/aimodels/llms/Inkling-2-Mini-UD-Q4_K_XL.gguf",
+  "--max-context",
+  "81920",
+  "--expert-profile",
+  "/home/user/aimodels/PolyStrata-data/packs/inkling-ud-q4_k_xl/expert-profile.txt",
+  "--vram-reserve-mib",
+  "512",
+  "--kv",
+  "fp8",
+  "--attn-requant",
+  "q5_k",
+  "--loop-bf16",
+  "--tail-skip",
+  "4",
+  "--threads",
+  "9"
+ ],
+ "cwd": "/home/user/agi/PolyStrata",
+ "tokenizer": "/home/user/aimodels/PolyStrata-data/packs/inkling-ud-q4_k_xl/tokenizer",
+ "model_name": "inkling-2-mini-ud-q4_k_xl",
+ "display_name": "Inkling 2 Mini UD-Q4_K_XL (PolyStrata)",
+ "log": "/home/user/agi/PolyStrata/strata-inkling-ud-q4_k_xl-cuda.log",
+ "lib_dirs": [
+  "/opt/cuda/bin",
+  "/opt/cuda/lib64"
+ ],
+ "port": 9931,
+ "gpu": 0,
+ "gpus_asked": true,
+ "open_browser": false,
+ "reasoning_effort": 0.4,
+ "reasoning_budget_tokens": 2048,
+ "vision": {
+  "exe": "/home/user/agi/PolyStrata/engine-poly-cuda/strata-vision",
+  "mmproj": "/home/user/aimodels/llms/inkling-2-mini-mmproj-BF16.gguf",
+  "model": "/home/user/aimodels/llms/Inkling-2-Mini-UD-Q4_K_XL.gguf",
+  "gpu": false,
+  "max_tokens": 256,
+  "threads": 9
+ },
+ "backend": "cuda",
+ "cuda": 13,
+ "fit_max_tokens": true
+}

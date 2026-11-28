@@ -1,0 +1,74 @@
+--- a/engine/src/artifact/strata_reader.cpp
++++ b/engine/src/artifact/strata_reader.cpp
+@@ -3,6 +3,7 @@
+ 
+ #include <zstd.h>
+ 
++#include <algorithm>
+ #include <cstring>
+ 
+ namespace strata::artifact {
+@@ -32,6 +33,7 @@
+ 
+ bool StrataFileReader::open(const std::string& path, std::string& err) {
+     close();
++    hdr_ = {};
+     fp_ = std::fopen(path.c_str(), "rb");
+     if (!fp_) {
+         err = "Failed to open .strata file: " + path;
+@@ -58,15 +60,29 @@
+         close();
+         return false;
+     }
++    // Inkling SQv2's 16 KiB layout places the section directory at byte 32.
++    uint64_t first_offset = 0;
++    std::memcpy(&first_offset, frame + 0x10, sizeof(first_offset));
++    const bool inkling_v2 = hdr_.flags == 1 && (prof == 1 || prof == 2) && first_offset == 0;
++    constexpr size_t inkling_v2_alignment = 16384;
++    const size_t directory_offset = inkling_v2 ? 0x20 : 0x10;
++    const size_t alignment = inkling_v2 ? inkling_v2_alignment : STRATA_PAGE_SIZE;
+     for (int i = 0; i < STRATA_NUM_SECTIONS; ++i) {
+-        std::memcpy(&hdr_.sections[i], frame + 0x10 + i * sizeof(StrataSectionEntry), sizeof(StrataSectionEntry));
+-        if (hdr_.sections[i].byte_length > 0 && (hdr_.sections[i].file_offset % STRATA_PAGE_SIZE) != 0) {
+-            err = "Section " + std::to_string(i) + " is not 4 KiB aligned";
+-            close();
+-            return false;
+-        }
+-    }
+-    std::memcpy(hdr_.engram_shard_sha256, frame + 0x190, 32);
++        auto& section = hdr_.sections[i];
++        std::memcpy(&section, frame + directory_offset + i * sizeof(section), sizeof(section));
++        if (inkling_v2 && (section.section_id != static_cast<uint32_t>(i) || (i == 0 && section.byte_length == 0))) {
++            err = "Invalid Inkling SQv2 section directory";
++            close();
++            return false;
++        }
++        if (section.byte_length > 0 && section.file_offset % alignment != 0) {
++            err = "Section " + std::to_string(i) + (inkling_v2 ? " is not 16 KiB aligned" : " is not 4 KiB aligned");
++            close();
++            return false;
++        }
++    }
++    if (inkling_v2 && prof == 2) hdr_.profile = StrataProfile::VisionShard;
++    if (!inkling_v2) std::memcpy(hdr_.engram_shard_sha256, frame + 0x190, 32);
+ 
+     // Decompress ZSTD Section 0 manifest
+     std::vector<uint8_t> s0;
+@@ -120,6 +136,17 @@
+         const bool has_vram_order = ((hdr_.sections[3].flags & 1u) != 0);
+         if (has_vram_order) {
+             constexpr size_t kEntryPlusOrder = sizeof(StrataExpertEntry) + sizeof(uint16_t);
++            if (inkling_v2) {
++                // Inkling 2 Mini has 24 physical layers with 128 routed experts each.
++                constexpr size_t dir_bytes = 24 * 128 * kEntryPlusOrder;
++                constexpr size_t padded_bytes = ((dir_bytes + inkling_v2_alignment - 1) / inkling_v2_alignment) * inkling_v2_alignment;
++                if (s3.size() != padded_bytes || !std::all_of(s3.begin() + dir_bytes, s3.end(), [](uint8_t byte) { return byte == 0; })) {
++                    err = "Invalid padded Inkling SQv2 expert directory";
++                    close();
++                    return false;
++                }
++                s3.resize(dir_bytes);
++            }
+             if (s3.size() % kEntryPlusOrder != 0) {
+                 err = "Section 3 v1.1 byte_length not a multiple of 34 B (32 B entry + 2 B vram_load_order)";
+                 close();

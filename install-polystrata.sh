@@ -4,6 +4,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${SCRIPT_DIR}/PolyStrata"
+MODEL="${1:-}"
+case "${MODEL}" in
+    ''|inkling|inkling-q8) ;;
+    *) echo "Usage: $0 [inkling|inkling-q8]" >&2; exit 1 ;;
+esac
 
 if ! command -v git >/dev/null 2>&1; then
     echo "[ERROR] Git is required to install PolyStrata." >&2
@@ -18,13 +23,22 @@ else
     git clone https://github.com/simplexai-labs/PolyStrata "${INSTALL_DIR}"
 fi
 
-cd "${INSTALL_DIR}"
-if [[ ! -x .venv/bin/python ]]; then
-    python3 -m venv .venv
+SETUP_DIR="${INSTALL_DIR}"
+if [[ -f "${INSTALL_DIR}/terminal/setup.py" ]]; then
+    SETUP_DIR="${INSTALL_DIR}/terminal"
+fi
+VENV_DIR="${SETUP_DIR}/.venv"
+if [[ ! -x "${VENV_DIR}/bin/python" && -x "${INSTALL_DIR}/.venv/bin/python" ]]; then
+    VENV_DIR="${INSTALL_DIR}/.venv"
+fi
+if [[ ! -x "${VENV_DIR}/bin/python" ]]; then
+    python3 -m venv "${VENV_DIR}"
 fi
 
+cd "${SETUP_DIR}"
+
 # Reuse setup's build routines without its model downloads or config generation.
-.venv/bin/python - "${SCRIPT_DIR}" <<'PY'
+"${VENV_DIR}/bin/python" - "${SCRIPT_DIR}" "${INSTALL_DIR}" "${MODEL}" <<'PY'
 import json
 import os
 from pathlib import Path
@@ -52,26 +66,36 @@ if hip and gpu["arch"] == "gfx1103":
     print("==> Experimental Radeon 740M/760M/780M support; ROCm is reused or installed locally by setup.")
 
 backend = "amd" if hip else "cuda"
+install_dir = Path(sys.argv[2])
 configs = []
-for name in ("tiel", "cybertiel"):
-    path = Path(sys.argv[1]) / f"strata-{name}-ud-q4_k_xl-{backend}.json"
+requested_model = sys.argv[3]
+if requested_model in ("inkling", "inkling-q8") and hip:
+    raise SystemExit("[ERROR] This Inkling launcher requires CUDA.")
+model_names = (requested_model,) if requested_model else ("tiel", "cybertiel")
+for name in model_names:
+    stem = "inkling-ud-q8_k_xl" if name == "inkling-q8" else f"{name}-ud-q4_k_xl"
+    path = Path(sys.argv[1]) / f"strata-{stem}-{backend}.json"
     cfg = json.loads(path.read_text())
-    model = Path(cfg["args"][cfg["args"].index("--model") + 1])
-    for required in (model, Path(cfg["vision"]["mmproj"])):
+    model = install_dir / cfg["args"][cfg["args"].index("--model") + 1]
+    for required in (model, install_dir / cfg["vision"]["mmproj"]):
         if not required.is_file():
             raise SystemExit(f"[ERROR] Required local GGUF is missing: {required}")
     configs.append((path, cfg, model))
 
 # Keep the two engines and their build stamps separate as well as the configs.
 # Reuse an existing installation from before the backend split when it matches.
-legacy = setup.ROOT / setup.ENGINE_POLY_DIR
-setup.ENGINE_POLY_DIR = f"engine-poly-{backend}"
-target = setup.ROOT / setup.ENGINE_POLY_DIR
-legacy_stamp = legacy / "BUILD.json"
-if not target.exists() and legacy_stamp.is_file():
-    legacy_meta = json.loads(legacy_stamp.read_text())
-    if (legacy_meta.get("backend") == "hip") == hip:
-        shutil.copytree(legacy, target)
+legacy_name = setup.ENGINE_POLY_DIR
+target = install_dir / f"engine-poly-{backend}"
+setup.ENGINE_POLY_DIR = str(target)
+if not target.exists():
+    for directory in dict.fromkeys((install_dir, setup.ROOT)):
+        legacy = directory / legacy_name
+        legacy_stamp = legacy / "BUILD.json"
+        if legacy_stamp.is_file():
+            legacy_meta = json.loads(legacy_stamp.read_text())
+            if (legacy_meta.get("backend") == "hip") == hip:
+                shutil.copytree(legacy, target)
+                break
 
 setup.pip_install(
     setup.requirement_lines() if setup.REQUIREMENTS.exists() else setup.PY_PACKAGES,
@@ -92,18 +116,21 @@ else:
 meta = json.loads((engine / "BUILD.json").read_text())
 
 for path, cfg, model in configs:
-    tokenizer = Path(cfg["tokenizer"])
+    tokenizer = install_dir / cfg["tokenizer"]
     required = ("vocab.json", "merges.txt", "token_type.json", "tokenizer.json", "chat_template.jinja")
     if not all((tokenizer / name).is_file() for name in required):
+        env = os.environ.copy()
+        if llama is not None and (llama / "gguf-py" / "gguf").is_dir():
+            env.setdefault("STRATA_GGUF_PY", str(llama / "gguf-py"))
         setup.run(
             [sys.executable, str(setup.ROOT / "tools" / "strata_tokenizer.py"),
              "--gguf", str(model), "--out", str(tokenizer.parent)],
-            env=dict(os.environ, STRATA_GGUF_PY=str(llama / "gguf-py")),
+            env=env,
         )
     # Each model learns and saves its own expert usage; no initial profile download is needed.
-    profile = Path(cfg["args"][cfg["args"].index("--expert-profile") + 1])
+    profile = install_dir / cfg["args"][cfg["args"].index("--expert-profile") + 1]
     profile.parent.mkdir(parents=True, exist_ok=True)
-    cfg.update(exe=str(engine / setup.POLY_EXE), cwd=str(setup.ROOT),
+    cfg.update(exe=str(engine / setup.POLY_EXE), cwd=str(install_dir),
                backend="hip" if hip else "cuda", lib_dirs=meta.get("lib_dirs") or meta.get("cuda_dirs", []),
                gpu=gpu["index"], gpus_asked=True)
     cfg.pop("hip_ordinal", None)
@@ -121,4 +148,10 @@ for path, cfg, model in configs:
     print(f"==> {cfg['model_name']}: tokenizer {tokenizer}, expert profile {profile}")
 PY
 
-echo "==> Build complete. Start ./strata-tiel-ud-q4_k_xl.sh or ./strata-cybertiel-ud-q4_k_xl.sh beside this installer."
+if [[ "${MODEL}" == inkling-q8 ]]; then
+    echo "==> Build complete. Start ./strata-inkling-ud-q8_k_xl.sh beside this installer."
+elif [[ "${MODEL}" == inkling ]]; then
+    echo "==> Build complete. Start ./strata-inkling-ud-q4_k_xl.sh beside this installer."
+else
+    echo "==> Build complete. Start ./strata-tiel-ud-q4_k_xl.sh or ./strata-cybertiel-ud-q4_k_xl.sh beside this installer."
+fi
